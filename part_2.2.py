@@ -391,6 +391,7 @@ def Value_Iteration(delta):
             ok = 2
 
         new_utility = np.zeros(shape = (5 ,3 ,4 ,2,5)) 
+
         for position in range(5):
             for material in range(3):
                 for arrow in range(4):
@@ -404,7 +405,6 @@ def Value_Iteration(delta):
                             if health == 0:
                                 policy[position][material][arrow][state][health] = "NONE"
                                 f.write(str((position_key[position], material,arrow, text_state, health * 25)) + ':' + str(policy[position][material][arrow][state][health])  + '=[' + str(0)  + ']\n') 
-                                
                                 continue
 
                             # i am at a state
