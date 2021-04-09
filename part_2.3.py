@@ -393,55 +393,56 @@ def Value_Iteration(delta):
 
         new_utility = np.zeros(shape = (5 ,3 ,4 ,2,5)) 
 
-        for material in range(3):
-            for arrow in range(4):
-                for state in range(2):
+        for position in range(5):
+            for material in range(3):
+                for arrow in range(4):
+                    for state in range(2):
 
-                    for position in range(5):
+                    
 
-                        for health in range(5):
-                            
-                            text_state = ""
-                            if state == 0 : text_state = 'D'
-                            else: text_state = 'R' 
-
-                            if health == 0:
-                                policy[position][material][arrow][state][health] = "NONE"
-                                f.write(str((position_key[position], material,arrow, text_state, health * 25)) + ':' + str(policy[position][material][arrow][state][health])  + '=[' + str(0)  + ']\n') 
+                            for health in range(5):
                                 
-                                continue
+                                text_state = ""
+                                if state == 0 : text_state = 'D'
+                                else: text_state = 'R' 
 
-                            # i am at a state
-                            maxStateValue = -10000000
-                            
-                            # all actions at this state
-                            for action,New_position in actions_position[position_key[position]].items():
-                                
-                                # state value for a particular action
-
-                                if (material == 0 and action == "CRAFT"): continue
-                                if (arrow == 0 and action == "SHOOT"): continue
-                                
-
-
-                                state_value = MM_state(action,position,New_position,material,arrow,state,health)
-                               
-                                # print(state_value)
-                                # print(position,material,arrow,state,health,action,state_value)
-
-                                if(maxStateValue < state_value):
-                                    maxStateValue = max(maxStateValue, state_value)
+                                if health == 0:
+                                    policy[position][material][arrow][state][health] = "NONE"
+                                    f.write(str((position_key[position], material,arrow, text_state, health * 25)) + ':' + str(policy[position][material][arrow][state][health])  + '=[' + str(0)  + ']\n') 
                                     
-                                    policy[position][material][arrow][state][health] = action
+                                    continue
 
-                            new_utility[position][material][arrow][state][health] = maxStateValue
-                            # print("max state value: " + str(maxStateValue))
+                                # i am at a state
+                                maxStateValue = -10000000
+                                
+                                # all actions at this state
+                                for action,New_position in actions_position[position_key[position]].items():
+                                    
+                                    # state value for a particular action
 
-                            prev_value = utility[position][material][arrow][state][health]
-                            
-                            max_diff = max(max_diff, abs(prev_value - maxStateValue))
-                            f.write(str((position_key[position], material,arrow, text_state, health * 25)) + ':' + str(policy[position][material][arrow][state][health])  + '=[' + str(maxStateValue)  + ']\n') 
-        
+                                    if (material == 0 and action == "CRAFT"): continue
+                                    if (arrow == 0 and action == "SHOOT"): continue
+                                    
+
+
+                                    state_value = MM_state(action,position,New_position,material,arrow,state,health)
+                                
+                                    # print(state_value)
+                                    # print(position,material,arrow,state,health,action,state_value)
+
+                                    if(maxStateValue < state_value):
+                                        maxStateValue = max(maxStateValue, state_value)
+                                        
+                                        policy[position][material][arrow][state][health] = action
+
+                                new_utility[position][material][arrow][state][health] = maxStateValue
+                                # print("max state value: " + str(maxStateValue))
+
+                                prev_value = utility[position][material][arrow][state][health]
+                                
+                                max_diff = max(max_diff, abs(prev_value - maxStateValue))
+                                f.write(str((position_key[position], material,arrow, text_state, health * 25)) + ':' + str(policy[position][material][arrow][state][health])  + '=[' + str(maxStateValue)  + ']\n') 
+            
         
         # for next iteration
         utility = np.copy(new_utility)
