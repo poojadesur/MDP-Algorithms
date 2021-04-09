@@ -1,0 +1,4 @@
+Initial state is : ('C', 2, 0, 1, 100)
+Initial state is : ('C', 2, 0, 1, 100)
+Initial state is : ('C', 2, 0, 1, 100)
+Initial state is : ('C', 2, 0, 1, 100)

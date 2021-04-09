@@ -1,4 +1,5 @@
 import numpy as np
+import json
 
 utility = np.zeros(shape = (5 ,3 ,4 ,2,5)) 
 policy = np.zeros(shape = (5 ,3 ,4 ,2,5), dtype=object) 
@@ -383,7 +384,7 @@ def Value_Iteration(delta):
         
         iteration+=1
 
-        f.write('iteration=' + str(iteration) + "\n")
+        # f.write('iteration=' + str(iteration) + "\n")
 
         if ok == 1 : 
             ok = 2
@@ -403,7 +404,7 @@ def Value_Iteration(delta):
 
                             if health == 0:
                                 policy[position][material][arrow][state][health] = "NONE"
-                                f.write(str((position_key[position], material,arrow, text_state, health * 25)) + ':' + str(policy[position][material][arrow][state][health])  + '=[' + str(0)  + ']\n') 
+                                # f.write(str((position_key[position], material,arrow, text_state, health * 25)) + ':' + str(policy[position][material][arrow][state][health])  + '=[' + str(0)  + ']\n') 
                                 continue
 
                             maxStateValue = -10000000
@@ -426,7 +427,7 @@ def Value_Iteration(delta):
                             
                             max_diff = max(max_diff, abs(prev_value - maxStateValue))
 
-                            f.write(str((position_key[position], material,arrow, text_state, health * 25)) + ':' + str(policy[position][material][arrow][state][health])  + '=[' + str(maxStateValue)  + ']\n') 
+                            # f.write(str((position_key[position], material,arrow, text_state, health * 25)) + ':' + str(policy[position][material][arrow][state][health])  + '=[' + str(maxStateValue)  + ']\n') 
         
         
         # for next iteration
@@ -441,8 +442,14 @@ def Value_Iteration(delta):
 Value_Iteration(0.001)
 print("ran successfully")
 
+def get_policy():
 
+    global policy
+    with open('part_2_policy.json', '+w') as file:
+        json_string = json.dumps(policy.tolist(), indent = 1)
+        file.write(json_string)
 
+get_policy()
 
 
 
